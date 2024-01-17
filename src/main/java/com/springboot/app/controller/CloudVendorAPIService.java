@@ -1,4 +1,4 @@
-package com.springboot.app;
+package com.springboot.app.controller;
 
 import com.springboot.app.model.CloudVendor;
 
@@ -40,7 +40,7 @@ public class CloudVendorAPIService {
     }
 
     @DeleteMapping("{vendorId}")
-    public String deleteCloudVendorDetails(String vendorId) {
+    public String deleteCloudVendorDetails(@PathVariable("vendorId") String vendorId) {
         this.cloudVendor = null;
         return "Cloud vendor deleted successfully";
 
