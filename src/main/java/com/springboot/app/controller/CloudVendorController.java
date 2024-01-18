@@ -1,6 +1,9 @@
 package com.springboot.app.controller;
 
 import com.springboot.app.model.CloudVendor;
+import com.springboot.app.service.CloudVendorService;
+
+import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,37 +16,42 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/cloud-vendor")
-public class CloudVendorAPIService {
+public class CloudVendorController {
 
-    CloudVendor cloudVendor;
+    CloudVendorService cloudVendorService;
+
+    public CloudVendorController(CloudVendorService cloudVendorService) {
+        this.cloudVendorService = cloudVendorService;
+    }
 
     @GetMapping("{vendorId}")
-    public CloudVendor getCloudVendorDetails(String vendorId) {
+    public CloudVendor getCloudVendorDetails(@PathVariable("vendorId") String vendorId) {
 
-        if (cloudVendor == null) {
-            return null;
-        }
-
-        return cloudVendor;
+        return cloudVendorService.getCloudVendor(vendorId);
     }
 
     @PostMapping()
     public String createCloudVendorDetails(@RequestBody CloudVendor cloudVendor) {
-        this.cloudVendor = cloudVendor;
+        cloudVendorService.createCloudVendor(cloudVendor);
         return "Cloud vendor created successfully";
     }
 
     @PutMapping()
     public String updateCloudVendorDetails(@RequestBody CloudVendor cloudVendor) {
-        this.cloudVendor = cloudVendor;
+        cloudVendorService.updateCloudVendor(cloudVendor);
         return "Cloud vendor updated successfully";
     }
 
     @DeleteMapping("{vendorId}")
     public String deleteCloudVendorDetails(@PathVariable("vendorId") String vendorId) {
-        this.cloudVendor = null;
+        cloudVendorService.deleteCloudVendor(vendorId);
         return "Cloud vendor deleted successfully";
 
+    }
+
+    @GetMapping
+    public List<CloudVendor> getAllCloudVendorDetails() {
+        return cloudVendorService.getAllCloudVendor();
     }
 
 }
